@@ -1,22 +1,22 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:15-alpine
-    container_name: todoapp-postgres
-    environment:
-      POSTGRES_DB: todoapp
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+#  postgres:
+#    image: postgres:15-alpine
+#    container_name: todoapp-postgres
+#    environment:
+#      POSTGRES_DB: todoapp
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U postgres"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
 
   app:
     build:
@@ -26,17 +26,13 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/todoapp
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-      SPRING_MAIL_HOST: ${SPRING_MAIL_HOST:-smtp.gmail.com}
-      SPRING_MAIL_PORT: ${SPRING_MAIL_PORT:-587}
-      SPRING_MAIL_USERNAME: ${SPRING_MAIL_USERNAME:-your-email@gmail.com}
-      SPRING_MAIL_PASSWORD: ${SPRING_MAIL_PASSWORD:-your-app-password}
-      APP_URL: ${APP_URL:-http://localhost:8080}
-    depends_on:
-      postgres:
-        condition: service_healthy
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_MAIL_HOST: smtp.gmail.com
+      SPRING_MAIL_PORT: 587
+      SPRING_MAIL_USERNAME: lucky1hlucky1h@gmail.com
+      SPRING_MAIL_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     restart: unless-stopped
 
 volumes:
